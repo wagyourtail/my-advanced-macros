@@ -64,7 +64,7 @@ if mc.field_71439_g.field_70138_W - .6 > .01 then
     if hackGUI.step then
         hackGUI.step.disableDraw()
     end
-    hackGUI.step = hud2D.newText("Step ".. mc.field_71439_g.field_70138_W, 5, drawn)
+    hackGUI.step = hud2D.newText("Step ".. (mc.field_71439_g.field_70138_W - .1), 5, drawn)
     hackGUI.step.enableDraw()
     drawn = drawn + 10
 elseif hackGUI.step then
