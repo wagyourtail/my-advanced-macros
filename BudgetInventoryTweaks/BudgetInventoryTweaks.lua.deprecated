@@ -1,0 +1,144 @@
+--event Anything
+local args = {...}
+local inv, map
+
+if opened == nil then
+  opened = 0
+end
+
+local compare = function(current, last)
+  return (current.tabs[1] and current.tabs[1].label or "None")..current.id < (last.tabs[1] and last.tabs[1].label or "None")..last.id
+end
+
+local contains = function(array, value)
+  for i, v in pairs(array) do
+    if v == value then
+      return true
+    end
+  end
+  return false
+end
+
+local sort = function(inv, map)
+  local lowest, aslot, bslot
+  for a = 1, #map do
+    aslot = inv.getSlot(map[a])
+    lowest = map[a]
+    for b = a + 1, #map do
+      bslot = inv.getSlot(map[b])
+      if aslot and bslot and aslot.id..aslot.dmg == bslot.id..bslot.dmg and aslot.amount ~= 64 then -- full stacks
+        inv.click(map[b], 0)
+        inv.click(map[a], 0)
+        inv.click(map[b], 0)
+        waitTick()
+      end
+      if bslot and ((not inv.getSlot(lowest)) or compare(bslot, inv.getSlot(lowest))) then -- sort
+        lowest = map[b]
+      end
+    end
+    if lowest ~= map[a] then
+      inv.click(map[a], 0)
+      inv.click(lowest, 0)
+      inv.click(map[a], 0)
+      waitTick()
+    end
+  end
+end
+
+local function replace(inv, invdex, item)
+  -- replace id
+  for i, v in pairs(inv.getMap().main) do
+    if inv.getSlot(v) and inv.getSlot(v).id == item.id then
+      inv.click(v, 0)
+      inv.click(invdex, 0)
+      inv.click(v, 0)
+      waitTick()
+      return
+    end
+  end
+  
+  for i, v in pairs(inv.getMap().hotbar) do
+    if inv.getSlot(v) and inv.getSlot(v).id == item.id then
+      inv.click(v, 0)
+      inv.click(invdex, 0)
+      inv.click(v, 0)
+      waitTick()
+      return
+    end
+  end
+  -- fail? replace category
+  if item.tabs[1] and item.tabs[1].label ~= "tools" then
+    for i, v in pairs(inv.getMap().main) do
+      if inv.getSlot(v) and inv.getSlot(v).tabs[1] and inv.getSlot(v).tabs[1].label == item.tabs[1].label then
+        inv.click(v, 0)
+        inv.click(invdex, 0)
+        inv.click(v, 0)
+        waitTick()
+        return
+      end
+    end
+    
+    for i, v in pairs(inv.getMap().hotbar) do
+      if inv.getSlot(v) and inv.getSlot(v).tabs[1] and inv.getSlot(v).tabs[1].label == item.tabs[1].label then
+        inv.click(v, 0)
+        inv.click(invdex, 0)
+        inv.click(v, 0)
+        waitTick()
+        return
+      end
+    end
+  end
+end
+
+if args[2] == "ContainerOpen" then -- Determine chest vs inventory
+  if args[4] == "Minecraft:.InventoryScreen" then
+    opened = 1 -- opened has to be global for this to work
+  elseif args[4] == "Minecraft:.ChestScreen" then
+    opened = 2
+  end
+
+elseif args[2] == "GUIClosed" then
+  opened = 0
+
+elseif args[2] == "ItemDurability" and args[3] and (args[3].maxDmg-1 == args[3].dmg and args[3].dmg ~= 0) then -- repair friendly replace (because breaking one doesn't work), also doesn't work in offhand
+  inv = openInventory()
+  waitTick()
+  replace(inv, inv.getMap().hotbar[getHotbar()], args[3])
+  inv.close()
+
+elseif args[2] == "UseItem" and args[3] and args[3].amount == 1 and args[3].dmg == args[3].maxDmg and args[3].id ~= "minecraft:shield" then -- food
+  inv = openInventory()
+  waitTick()
+  if args[5] == "start" then
+    offHand = inv.getSlot(inv.getMap().offHand) and inv.getSlot(inv.getMap().offHand).id == args[3].id
+  elseif args[5] == "finish" then
+    if offHand and not inv.getSlot(inv.getMap().offHand) then
+      replace(inv, inv.getMap().offHand, args[3])
+    elseif not inv.getSlot(inv.getMap().hotbar[getHotbar()]) then
+      replace(inv, inv.getMap().hotbar[getHotbar()], args[3])
+    end
+  end
+  inv.close()
+
+elseif args[2] == "BlockInteract" and args[4] and args[4].amount == 1 then -- block/item replace
+  inv = openInventory()
+  waitTick()
+  if args[5] == "off hand" then
+    if not inv.getSlot(inv.getMap().offHand) then
+      replace(inv, inv.getMap().offHand, args[4])
+    end
+  elseif not inv.getSlot(inv.getMap().hotbar[getHotbar()]) then
+    replace(inv, inv.getMap().hotbar[getHotbar()], args[4])
+  end
+  inv.close()
+
+elseif opened > 0 and args[2] == "MMB" and args[3] == "down" then -- sorting on MMB
+  inv = openInventory()
+  map = inv.getMap()
+  if opened == 2 then
+    map = map.contents
+  else
+    map = map.main
+  end
+  sort(inv, map)
+end
