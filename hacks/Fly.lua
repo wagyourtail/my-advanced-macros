@@ -42,8 +42,8 @@ while FLY_ENABLE do
         descTime = 0
     end
     
-    --minecraft.player.fallDistance
-    if mc.field_71439_g.field_70143_R > 2 then
+    --minecraft.player.fallDistance and !minecraft.player.isElytraFlying()
+    if mc.field_71439_g.field_70143_R > 2 and not mc.field_71439_g:func_184613_cA() then
       --minecraft.player.connection.sendPacket(new CPlayerPacket.PositionPacket(true))
         mc.field_71439_g.field_71174_a:func_147297_a(luajava.new(CPlayerPacket, true))
         --minecraft.player.fallDistance
