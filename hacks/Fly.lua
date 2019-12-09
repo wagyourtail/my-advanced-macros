@@ -27,7 +27,7 @@ while FLY_ENABLE do
     if descTime >= 10 and mc.field_71439_g.field_71075_bZ.field_75100_b then -- no fall
         local x,y,z = getPlayerPos()
         
-        
+        -- BYPASS FLY NOT ENABLED ON THIS SERVER
         if up then
         --minecraft.player.connection.sendPacket(new CPlayerPacket.PositionPacket(true))
           mc.field_71439_g.field_71174_a:func_147297_a(luajava.new(CPlayerPacket.PositionPacket, x, y+.05, z, true))
