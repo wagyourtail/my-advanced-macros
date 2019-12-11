@@ -51,6 +51,12 @@ switch = {
         ["fun"] = function()
             runThread("Step.lua", cmdArgs[2])
         end
+    },
+    ["/fullbright"] = {
+        ["desc"] = "",
+        ["fun"] = function()
+            runThread("FullBright.lua", cmdArgs[2])
+        end
     }
 }
 

@@ -70,3 +70,14 @@ if mc.field_71439_g.field_70138_W - .6 > .01 then
 elseif hackGUI.step then
     hackGUI.step.disableDraw()
 end
+
+if GAMMA then
+    if hackGUI.gamma then
+        hackGUI.gamma.disableDraw()
+    end
+    hackGUI.gamma = hud2D.newText("FullBright", 5, drawn)
+    hackGUI.gamma.enableDraw()
+    drawn = drawn + 10
+elseif hackGUI.gamma then
+    hackGUI.gamma.disableDraw()
+end
