@@ -5,10 +5,6 @@ FLY_ENABLE = not FLY_ENABLE
 
 runThread("GUI.lua")
 
-getSettings().luajava = getSettings().luajava or {}
-getSettings().luajava.allowPrivateAccess = true
-getSettings().save()
-
 local nofallsave = NO_FALL
 NO_FALL = false
 
@@ -19,7 +15,6 @@ local up = false
 local topShift = 0
 while FLY_ENABLE do
     local x,y,z = getPlayerPos()
-    
     
          --minecraft.player.abilities.canFly
     if not mc.field_71439_g.field_71075_bZ.field_75101_c then

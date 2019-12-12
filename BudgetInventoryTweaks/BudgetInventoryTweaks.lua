@@ -82,4 +82,5 @@ if (args[1] == "key" and args[2] == "R" and args[3] == "down") then -- doesn't w
     local inv = openInventory()
     local map = inv.getMap()
     sort(map.main, inv, mc.field_71439_g.field_71071_by)
+    log("done")
 end
