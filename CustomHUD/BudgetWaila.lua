@@ -22,14 +22,14 @@ if waila.enabled then
             rt = nil
         end
         if rt then
-            waila.hud.background = hud2D.newRectangle(cw/2-75, 1, 150, 20)
+            waila.hud.background = hud2D.newRectangle(cw/2-75, 4, 150, 30)
             waila.hud.background.setColor(0x44222222)
             waila.hud.background.enableDraw()
         
-            waila.hud.image = hud2D.newItem(rt.block.id:gsub("wall_torch", "torch"):gsub("carrots", "carrot"):gsub("potatoes", "potato"):gsub("beetroots", "beetroot"):gsub("tall_seagrass", "seagrass"):gsub("kelp_plant", "kelp"):gsub("nether_portal", "obsidian"):gsub("end_portal", "end_portal_frame"):gsub("end_portal_frame_frame", "end_portal_frame"), cw/2-74, 2)
+            waila.hud.image = hud2D.newItem(rt.block.id:gsub("wall_torch", "torch"):gsub("carrots", "carrot"):gsub("potatoes", "potato"):gsub("beetroots", "beetroot"):gsub("tall_seagrass", "seagrass"):gsub("kelp_plant", "kelp"):gsub("nether_portal", "obsidian"):gsub("end_portal", "end_portal_frame"):gsub("end_portal_frame_frame", "end_portal_frame"), cw/2-74, 7)
             waila.hud.image.enableDraw()
         
-            waila.hud.name = hud2D.newText(rt.block.name, cw/2-57, 5)
+            waila.hud.name = hud2D.newText(rt.block.name, cw/2-55, 10)
             waila.hud.name.enableDraw()
         else
             if waila.hud.background then
