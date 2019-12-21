@@ -4,6 +4,17 @@ local recipie = {"minecraft:cobblestone", "minecraft:cobblestone", "minecraft:co
                  false, "minecraft:stick", false,
                  false, "minecraft:stick", false}
 
+
+local function indexes(arr, search)
+    local indexes = {}
+    for j,k in pairs(arr) do
+        if k == search then
+            indexes[#indexes+1] = j
+        end
+    end
+    return indexes
+end
+
 function inv.find(inv, item)
     local slots = {}
     for _, i in pairs(inv.getMap()) do
@@ -49,10 +60,25 @@ function inv.craft(inv, recipie, min)
             end
             items[k] = slots -- set item reqs to slot numbers
         end
-        
-        --craft
-        log(items)
-        
+        -- format
+        if #map.craftingIn == 9 and #recipie == 4 then
+            recipie = {recipie[1], recipie[2], false,
+                       recipie[3], recipie[4], false,
+                       false, false, false}
+        end
+        -- craft
+        for k,i in pairs(items) do
+            local slots = indexes(recipie,k)
+            for j,n in pairs(slots) do
+                slots[j] = map.craftingIn[n]
+            end
+            for _,j in pairs(i) do
+                inv.click(j, 0)
+                inv.dragClick(slots, 0) -- not yet in a pub release
+                sleep(150)
+                inv.click(j, 0)
+            end
+        end
     else
         log("requires crafting table")
         return -2
@@ -60,4 +86,4 @@ function inv.craft(inv, recipie, min)
 end
 
 sleep(1000)
-log(inv:craft(recipie))
+log(inv:craft(recipie, 2))
