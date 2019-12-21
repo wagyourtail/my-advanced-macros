@@ -26,7 +26,7 @@ if waila.enabled then
             waila.hud.background.setColor(0x44222222)
             waila.hud.background.enableDraw()
         
-            waila.hud.image = hud2D.newItem(rt.block.id:gsub("wall_torch", "torch"):gsub("carrots", "carrot"):gsub("potatoes", "potato"):gsub("beetroots", "beetroot"):gsub("tall_seagrass", "seagrass"):gsub("kelp_plant", "kelp"):gsub("nether_portal", "obsidian"):gsub("end_portal", "end_portal_frame"):gsub("end_portal_frame_frame", "end_portal_frame"):gsub("redstone_wire", "redstone"), cw/2-74, 7)
+            waila.hud.image = hud2D.newItem(rt.block.id:gsub("wall_", ""):gsub("carrots", "carrot"):gsub("potatoes", "potato"):gsub("beetroots", "beetroot"):gsub("tall_seagrass", "seagrass"):gsub("kelp_plant", "kelp"):gsub("nether_portal", "obsidian"):gsub("end_portal", "end_portal_frame"):gsub("end_portal_frame_frame", "end_portal_frame"):gsub("redstone_wire", "redstone"), cw/2-74, 7)
             waila.hud.image.enableDraw()
         
             waila.hud.name = hud2D.newText(rt.block.name, cw/2-55, 10)
