@@ -17,7 +17,7 @@ switch = {
         end
     },
     ["/home"] = {
-        ["desc"] = "add home home to blank home command",
+        ["desc"] = "homes gui",
         ["fun"] = function()
             return "/home "..(cmdArgs[2] or "home")
         end

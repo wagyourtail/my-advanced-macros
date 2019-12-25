@@ -10,7 +10,6 @@ local function CastRod(depth)
     sleep(1000) -- wait a second
     
     fishingBobberEntity = mc.field_71439_g.field_71104_cf -- refresh entity
-    log(fishingBobberEntity)
     -- is in water
     local fbe = luajava.bindClass("net.minecraft.entity.projectile.FishingBobberEntity$State")
     if (fishingBobberEntity.field_190627_av == fbe.BOBBING) then
